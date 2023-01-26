@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from 'src/app/service/users.service';
 
 @Component({
@@ -10,17 +10,34 @@ import { UsersService } from 'src/app/service/users.service';
 })
 export class LoginComponent implements OnInit {
 
-  form!: FormGroup;
+  form: FormGroup = this.createForm();
   valid?: boolean;
   register?: string;
+  registerRoute: boolean = false;
+  titleButton!: string;
 
   constructor(
     private _userLogin: UsersService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private readonly activate: Router
   ){}
 
   ngOnInit(): void {
-    this.form = new FormGroup({
+    this.route.queryParams.subscribe((params) => {
+      console.log(params);     
+      if('order' in params){
+        this.registerRoute = !this.registerRoute;
+      } else {
+        this.registerRoute = false; 
+      }
+      // gestione title button
+      // gestione title routing
+      // eventuali condizioani addizionalei
+    });
+  }
+
+  createForm():FormGroup{
+    return new FormGroup({
       id: new FormControl('', Validators.required),
       name: new FormControl('', Validators.required),
       pass: new FormControl('', Validators.required),
@@ -28,14 +45,19 @@ export class LoginComponent implements OnInit {
     }, {updateOn: 'blur'})
   }
 
-  onLogin(){
-    console.log('Sei entrato');
-    this._userLogin.postLogin(this.form.value).subscribe(console.log);   
-  }
-
-  onRegister(){
-    console.log('Sei registrato');
-    this._userLogin.postRegister(this.form.value).subscribe(console.log);
+  onRegisterLogin(){
+    // posso utllizzare il variablie
+    //decidere metodo da usare
+    if (this.registerRoute) {
+      console.log('Sei registrato');
+      this._userLogin.postRegister(this.form.value).subscribe(res => {
+        
+        this.activate.navigate(['/login'])
+      });
+    } else {
+      console.log('Sei entrato');
+      this._userLogin.postLogin(this.form.value).subscribe(console.log); 
+    }
   }
 
   onSubmit() {

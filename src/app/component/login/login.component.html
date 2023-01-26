@@ -37,7 +37,7 @@
         </div>
       </div>
 
-      <div class="col-md-3 mb-3" *ngIf="">
+      <div class="col-md-3 mb-3" *ngIf="!!registerRoute">
         <label for="email">Email</label>
         <input 
             type="text" 
@@ -48,21 +48,22 @@
             [class.is-valid]="form.get('email')?.valid && form.get('email')?.touched"
             [class.is-invalid]="form.get('email')?.invalid && form.get('email')?.touched">
         <div *ngIf="form.invalid" class="invalid-feedback">
-          Please provide a valid password.
+          Please provide a valid email.
         </div>
       </div>
 
     </div>
-    <div>
-        <a class="btn btn-primary" (click)="onLogin()">Login</a>
-    </div>
-    <br>
-    <div>
-         <a class="btn btn-primary" [routerLink]="'/login'" [queryParams]="{order: 'register'}">Register</a>
-    </div>
-    <br>
-    <div>
+        <button class="btn btn-primary" (click)="onRegisterLogin()">
+          {{!registerRoute ? 'Login' : 'Register' }}
+          <!-- {{titleButton}} -->
+        </button>
+    
+         <a class="btn btn-primary" 
+            [routerLink]="registerRoute  ? '/register' : '/login'" 
+            [queryParams]="{order: registerRoute ? 'register' : 'login'}">
+          {{registerRoute ? 'Login' : 'Register'}}
+        </a>
+    
         <button class="btn btn-primary reset" (click)="onReset()">Reset form</button>
-    </div>
     
  </form>

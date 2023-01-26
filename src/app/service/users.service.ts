@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { catchError, mergeMap, Observable } from 'rxjs';
 import { IUserLogin } from '../interface/user';
 
 @Injectable({
@@ -12,12 +13,17 @@ export class UsersService {
   ) {}
 
   //post login
-  postLogin(body: IUserLogin){
-    return this._http.post('http://localhost:3000/auth/login', body)
+  postLogin(body: IUserLogin): Observable<any>{
+    return this._http.post('http://localhost:3000/auth/login', body ).pipe(
+      //mergeMap(),
+      //catchError(): Observable<any>
+    )
   }
 
   //post register
-  postRegister(body: IUserLogin){
-    return this._http.post('http://localhost:3000/auth/new-user', body)
+  postRegister(body: IUserLogin): Observable<any>{
+    return this._http.post('http://localhost:3000/new-user', body)
+      //mergeMap(),
+      //catchError(): Observable<any>
   }
 }
