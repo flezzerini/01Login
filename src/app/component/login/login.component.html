@@ -1,0 +1,68 @@
+<!-- <p>login works!</p>
+<a class="btn btn-primary">Login</a>
+<a class="btn btn-primary" [routerLink]="'/login'" [queryParams]="{order: 'register'}">Register</a> -->
+
+<!-- eliminare il component register e fare tutto su un component, per entrare nella register usare il quaryparams -->
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+
+      <div class="col-md-3 mb-3">
+        <label for="name">Name</label>
+        <input 
+            type="text" 
+            class="form-control" 
+            id="name" 
+            formControlName="name" 
+            placeholder="Name"
+            [class.is-valid]="form.get('name')?.valid && form.get('name')?.touched"
+            [class.is-invalid]="form.get('name')?.invalid && form.get('name')?.touched">
+        <div *ngIf="form.invalid" class="invalid-feedback">
+          Please provide a valid name.
+        </div>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <label for="pass">Password</label>
+        <input 
+            type="password" 
+            class="form-control" 
+            id="pass" 
+            formControlName="pass" 
+            placeholder="Password"
+            [class.is-valid]="form.get('pass')?.valid && form.get('pass')?.touched"
+            [class.is-invalid]="form.get('pass')?.invalid && form.get('pass')?.touched">
+        <div *ngIf="form.invalid" class="invalid-feedback">
+          Please provide a valid password.
+        </div>
+      </div>
+
+      <div class="col-md-3 mb-3" *ngIf="">
+        <label for="email">Email</label>
+        <input 
+            type="text" 
+            class="form-control" 
+            id="email" 
+            formControlName="email" 
+            placeholder="Email"
+            [class.is-valid]="form.get('email')?.valid && form.get('email')?.touched"
+            [class.is-invalid]="form.get('email')?.invalid && form.get('email')?.touched">
+        <div *ngIf="form.invalid" class="invalid-feedback">
+          Please provide a valid password.
+        </div>
+      </div>
+
+    </div>
+    <div>
+        <a class="btn btn-primary" (click)="onLogin()">Login</a>
+    </div>
+    <br>
+    <div>
+         <a class="btn btn-primary" [routerLink]="'/login'" [queryParams]="{order: 'register'}">Register</a>
+    </div>
+    <br>
+    <div>
+        <button class="btn btn-primary reset" (click)="onReset()">Reset form</button>
+    </div>
+    
+ </form>
